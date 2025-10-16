@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.exception.ParametroInvalidoException;
 import org.example.model.Pessoa;
 import org.example.util.TecladoUtil;
 import org.example.exception.AplicationException;
@@ -7,19 +8,23 @@ import org.example.exception.AplicationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class Sistema {
     private static boolean sair = false;
     public static List<Pessoa> pessoas = new ArrayList<>();
 
-    private static void criarLista() {
-        pessoas.add(new Pessoa("Mikael", "54545546", "raphaemelo41@dauhau", LocalDate.of(23, 02, 1999)));
-        pessoas.add(new Pessoa("Raphael", "54545546", "raphaemelosas41@dauhau", LocalDate.of(24, 02, 1979)));
+    public static void criarLista() {
+        pessoas.add(new Pessoa("Mikael", "54545546", "raphaemelo41@dauhau", LocalDate.of(1999, 2, 23)));
+        pessoas.add(new Pessoa("Raphael", "54545546", "raphaemelosas41@dauhau", LocalDate.of(1999, 2, 24)));
     }
 
 
     public static void main(String[] args) {
+
+        Sistema.criarLista();
+
         while (!sair) {
             menu();
             int opcao = TecladoUtil.lerInt("Informe a opcao");
@@ -67,10 +72,11 @@ public class Sistema {
         System.out.println("6---Sair-------------------");
     }
 
-    private static void adicionarContato() throws AplicationException {
+    private static void adicionarContato() throws AplicationException, ParametroInvalidoException {
         Pessoa p = new Pessoa();
         try {
             p.setNome(TecladoUtil.lerString("Digite o nome:"));
+
             p.setTelefone(TecladoUtil.lerString("Digite o telefone: "));
 
             int dia = TecladoUtil.lerInt("Dia de nascimento:");
@@ -78,8 +84,9 @@ public class Sistema {
             int ano = TecladoUtil.lerInt("Ano de nascimento");
             p.setDataNascimento(dia, mes, ano);
 
-        } catch (AplicationException e) {
+        } catch (ParametroInvalidoException e) {
             System.out.println("Nome, Telefone, email Incorretos ");
+            adicionarContato();
         }
         p.setEmail(TecladoUtil.lerString("Digite o email: "));
 
@@ -96,7 +103,9 @@ public class Sistema {
         System.out.println("Listando Pessoas da agenda...");
         pessoas.forEach(System.out::println);
         //queria tratar para caso não tenha ninguém na lista ele indicar
+
     }
+
 
     private static void removerContato() throws AplicationException {
         String nome = TecladoUtil.lerString("Digite o nome da pessoa que quer remover: ");
@@ -120,19 +129,25 @@ public class Sistema {
         listar(pessoas);
 
         String nome = TecladoUtil.lerString("Digite o nome da pessoa que quer editar:");
-        Pessoa pessoaEditada = null;
-        for (Pessoa p : pessoas){
-            if(p.getNome().equalsIgnoreCase(nome)){
-                pessoaEditada = p;
-                break;
-            }
-        }
-        System.out.println("Editando nome "+pessoaEditada.getNome());
+
+        Pessoa pessoaEditada = pessoas.stream().filter(p -> p.getNome().equalsIgnoreCase(nome)).findFirst().orElse(null);
+
+        System.out.println("Editando nome " + pessoaEditada.getNome());
 
         String nomeEditado = TecladoUtil.lerString("Digite o nome: ");
         pessoaEditada.setNome(nomeEditado);
 
+        String telefoneEditado = TecladoUtil.lerString("Digite o telefone: ");
+        pessoaEditada.setTelefone(telefoneEditado);
 
+
+        int dia = TecladoUtil.lerInt("Dia de nascimento:");
+        int mes = TecladoUtil.lerInt("Mês de nascimento:  *Dois digitos*");
+        int ano = TecladoUtil.lerInt("Ano de nascimento");
+        pessoaEditada.setDataNascimento(dia, mes, ano);
+
+        String emailEditado = TecladoUtil.lerString("Digite seu e-mail: ");
+        pessoaEditada.setEmail(emailEditado);
     }
 }
 
