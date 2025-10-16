@@ -13,9 +13,9 @@ public class Sistema {
     private static boolean sair = false;
     public static List<Pessoa> pessoas = new ArrayList<>();
 
-    private static void criarLista(){
-        pessoas.add(new Pessoa("Mikael","54545546","raphaemelo41@dauhau", LocalDate.of(23,02,1999)));
-        pessoas.add(new Pessoa("Raphael","54545546","raphaemelosas41@dauhau", LocalDate.of(24,02,1979)));
+    private static void criarLista() {
+        pessoas.add(new Pessoa("Mikael", "54545546", "raphaemelo41@dauhau", LocalDate.of(23, 02, 1999)));
+        pessoas.add(new Pessoa("Raphael", "54545546", "raphaemelosas41@dauhau", LocalDate.of(24, 02, 1979)));
     }
 
 
@@ -38,6 +38,11 @@ public class Sistema {
                     listar(pessoas);
                     break;
                 case 3:
+                    System.out.println("Removendo contato...");
+                    removerContato();
+                    break;
+                case 4:
+                    alterarContato();
                     break;
                 case 6:
                     sair = true;
@@ -56,8 +61,8 @@ public class Sistema {
         System.out.println("---------------------------");
         System.out.println("1---Adicionar--------------");
         System.out.println("2---Listar contatos-------");
-        System.out.println("3---Editar contato---------");
-        System.out.println("4---Pesquisar contato------");
+        System.out.println("3---Remover contato---------");
+        System.out.println("4---Alterara contato------");
         System.out.println("5---Aniversáriantes-do-mês-");
         System.out.println("6---Sair-------------------");
     }
@@ -67,9 +72,10 @@ public class Sistema {
         try {
             p.setNome(TecladoUtil.lerString("Digite o nome:"));
             p.setTelefone(TecladoUtil.lerString("Digite o telefone: "));
-            int ano = TecladoUtil.lerInt("Digite o ano");
-            int mes = TecladoUtil.lerInt("Digite o mes");
-            int dia = TecladoUtil.lerInt("Digite o dia");
+
+            int dia = TecladoUtil.lerInt("Dia de nascimento:");
+            int mes = TecladoUtil.lerInt("Mês de nascimento");
+            int ano = TecladoUtil.lerInt("Ano de nascimento");
             p.setDataNascimento(dia, mes, ano);
 
         } catch (AplicationException e) {
@@ -77,24 +83,57 @@ public class Sistema {
         }
         p.setEmail(TecladoUtil.lerString("Digite o email: "));
 
-        adicionarContato();
+        pessoas.add(p);
 
     }
+
     public static void adicionarContato(Pessoa p) {
         pessoas.add(p);
     }
 
 
-    public static void listar(List<Pessoa> pessoas){
-        System.out.println("Listando Pessoas da agenda");
-        for (Pessoa p: pessoas){
-            System.out.println(p);
+    private static void listar(List<Pessoa> pessoas) {
+        System.out.println("Listando Pessoas da agenda...");
+        pessoas.forEach(System.out::println);
+        //queria tratar para caso não tenha ninguém na lista ele indicar
+    }
 
+    private static void removerContato() throws AplicationException {
+        String nome = TecladoUtil.lerString("Digite o nome da pessoa que quer remover: ");
+        boolean removido = false;
+
+        for (int i = 0; i < pessoas.size(); i++) {
+            Pessoa pessoa = pessoas.get(i);
+            if (pessoa.getNome().equalsIgnoreCase(nome)) {
+                pessoas.remove(i);
+                removido = true;
+                System.out.println(nome + " Removido ");
+
+            }
+        }
+        if (!removido) {
+            System.out.println("Pessoa não encontrada..");
         }
     }
-    private static void remover(Pessoa contato)throws AplicationException{
+
+    private static void alterarContato() {
+        listar(pessoas);
+
+        String nome = TecladoUtil.lerString("Digite o nome da pessoa que quer editar:");
+        Pessoa pessoaEditada = null;
+        for (Pessoa p : pessoas){
+            if(p.getNome().equalsIgnoreCase(nome)){
+                pessoaEditada = p;
+                break;
+            }
+        }
+        System.out.println("Editando nome "+pessoaEditada.getNome());
+
+        String nomeEditado = TecladoUtil.lerString("Digite o nome: ");
+        pessoaEditada.setNome(nomeEditado);
+
 
     }
-
-
 }
+
+

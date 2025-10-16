@@ -21,4 +21,8 @@ public class ClasseTest {
 
         assertTrue(Sistema.pessoas.contains(p), "Pessoa adicionada a lista");
     }
+
+    public void testarListagemdePessoas(){
+
+    }
 }
