@@ -1,3 +1,4 @@
+import org.example.controller.PessoaController;
 import org.example.model.Pessoa;
 import org.example.view.Sistema;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ public class ClasseTest {
     @Test
     void testarListagemdePessoas() {
         Sistema.criarLista();
-        Sistema.listar(pessoas);
+        PessoaController.listar(pessoas);
 
         assertTrue(pessoas.contains(p), "Pessoa dentro da lista, OK");
 
@@ -38,8 +39,7 @@ public class ClasseTest {
     void testaRemoverContato() {
         Sistema.adicionarContato(p);
 
-
-        Sistema.listar(pessoas);
+        PessoaController.listar(pessoas);
 
         assertTrue(!pessoas.contains(p), "Contato removido, OK");
 
