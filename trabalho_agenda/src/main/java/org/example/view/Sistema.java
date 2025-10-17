@@ -17,7 +17,7 @@ import static org.example.controller.PessoaController.removerContato;
 
 public class Sistema {
     private static boolean sair = false;
-    public static List<Pessoa> pessoas = new ArrayList<>();
+    private static List<Pessoa> pessoas = new ArrayList<>();
 
     public static void criarLista() {
         pessoas.add(new Pessoa("Mikael", "54545546", "raphaemelo41@dauhau", LocalDate.of(1999, 2, 23)));
@@ -41,7 +41,7 @@ public class Sistema {
             switch (opcao) {
                 case 1:
                     System.out.println("Adicionando contato...");
-                    adicionarContato();
+                    PessoaController.adicionarContato();
                     break;
                 case 2:
                     PessoaController.listar(pessoas);
@@ -53,6 +53,9 @@ public class Sistema {
                 case 4:
                     System.out.println("Alterar contato...");
                     PessoaController.alterarContato();
+                    break;
+                case 5:
+                    System.out.println("Aniversáriantes do mês");
                     break;
                 case 6:
                     sair = true;
@@ -72,37 +75,10 @@ public class Sistema {
         System.out.println("1---Adicionar--------------");
         System.out.println("2---Listar contatos-------");
         System.out.println("3---Remover contato---------");
-        System.out.println("4---Alterara contato------");
+        System.out.println("4---Alterar contato------");
         System.out.println("5---Aniversáriantes-do-mês-");
         System.out.println("6---Sair-------------------");
     }
-
-    private static void adicionarContato() throws AplicationException, ParametroInvalidoException {
-        Pessoa p = new Pessoa();
-        try {
-            p.setNome(TecladoUtil.lerString("Digite o nome:"));
-
-            p.setTelefone(TecladoUtil.lerString("Digite o telefone: "));
-
-            int dia = TecladoUtil.lerInt("Dia de nascimento:");
-            int mes = TecladoUtil.lerInt("Mês de nascimento");
-            int ano = TecladoUtil.lerInt("Ano de nascimento");
-            p.setDataNascimento(dia, mes, ano);
-
-        } catch (ParametroInvalidoException e) {
-            System.out.println("Nome, Telefone, email Incorretos ");
-            adicionarContato();
-        }
-        p.setEmail(TecladoUtil.lerString("Digite o email: "));
-
-        pessoas.add(p);
-
-    }
-
-    public static void adicionarContato(Pessoa p) {
-        pessoas.add(p);
-    }
-
 
 
 }

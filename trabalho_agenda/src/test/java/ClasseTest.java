@@ -20,9 +20,9 @@ public class ClasseTest {
         p.setTelefone("312121212");
         p.setDataNascimento(LocalDate.of(1999, 3, 2));
 
-        Sistema.adicionarContato(p);
+        PessoaController.adicionarContato(p);
 
-        assertTrue(Sistema.pessoas.contains(p), "Pessoa adicionada a lista, OK");
+        assertTrue(PessoaController.pessoas.contains(p), "Pessoa adicionada a lista, OK");
     }
 
     @Test
@@ -30,14 +30,14 @@ public class ClasseTest {
         Sistema.criarLista();
         PessoaController.listar(pessoas);
 
-        assertTrue(pessoas.contains(p), "Pessoa dentro da lista, OK");
+        assertTrue(PessoaController.pessoas.contains(p), "Pessoa dentro da lista, OK");
 
 
     }
 
     @Test
     void testaRemoverContato() {
-        Sistema.adicionarContato(p);
+        PessoaController.adicionarContato(p);
 
         PessoaController.listar(pessoas);
 

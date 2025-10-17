@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.exception.AplicationException;
+import org.example.exception.ParametroInvalidoException;
 import org.example.model.Pessoa;
 import org.example.util.TecladoUtil;
 
@@ -8,7 +9,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.view.Sistema.listar;
 
 public class PessoaController {
 
@@ -65,6 +65,31 @@ public class PessoaController {
         System.out.println("Listando Pessoas da agenda...");
         pessoas.forEach(System.out::println);
         //queria tratar para caso não tenha ninguém na lista ele indicar
+
+    }
+    public static void adicionarContato(Pessoa p) {
+        pessoas.add(p);
+    }
+
+    public static void adicionarContato() throws AplicationException, ParametroInvalidoException {
+        Pessoa p = new Pessoa();
+        try {
+            p.setNome(TecladoUtil.lerString("Digite o nome:"));
+
+            p.setTelefone(TecladoUtil.lerString("Digite o telefone: "));
+
+            int dia = TecladoUtil.lerInt("Dia de nascimento:");
+            int mes = TecladoUtil.lerInt("Mês de nascimento");
+            int ano = TecladoUtil.lerInt("Ano de nascimento");
+            p.setDataNascimento(dia, mes, ano);
+
+        } catch (ParametroInvalidoException e) {
+            System.out.println("Nome, Telefone, email Incorretos ");
+            adicionarContato();
+        }
+        p.setEmail(TecladoUtil.lerString("Digite o email: "));
+
+        pessoas.add(p);
 
     }
 }
