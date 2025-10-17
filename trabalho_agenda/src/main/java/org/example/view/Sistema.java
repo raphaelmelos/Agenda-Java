@@ -47,6 +47,7 @@ public class Sistema {
                     removerContato();
                     break;
                 case 4:
+                    System.out.println("Alterar contato...");
                     alterarContato();
                     break;
                 case 6:
@@ -99,7 +100,7 @@ public class Sistema {
     }
 
 
-    private static void listar(List<Pessoa> pessoas) {
+    public static void listar(List<Pessoa> pessoas) {
         System.out.println("Listando Pessoas da agenda...");
         pessoas.forEach(System.out::println);
         //queria tratar para caso não tenha ninguém na lista ele indicar
@@ -107,7 +108,7 @@ public class Sistema {
     }
 
 
-    private static void removerContato() throws AplicationException {
+    public static void removerContato() throws AplicationException {
         String nome = TecladoUtil.lerString("Digite o nome da pessoa que quer remover: ");
         boolean removido = false;
 

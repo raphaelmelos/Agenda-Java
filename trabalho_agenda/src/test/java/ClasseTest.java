@@ -9,20 +9,43 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ClasseTest {
+
+    public static List<Pessoa> pessoas = new ArrayList<>();
+    Pessoa p = new Pessoa("Raphael", "54545546", "raphaemelosas41@dauhau", LocalDate.of(1999, 2, 24));
+
     @Test
-    public void testarAdicionarPessoa(){
-        List<Pessoa> pessoas = new ArrayList<>();
-        Pessoa p = new Pessoa();
+    void testarAdicionarPessoa() {
         p.setNome("Raphael");
         p.setTelefone("312121212");
-        p.setDataNascimento(LocalDate.of(1999,3,2));
+        p.setDataNascimento(LocalDate.of(1999, 3, 2));
 
         Sistema.adicionarContato(p);
 
-        assertTrue(Sistema.pessoas.contains(p), "Pessoa adicionada a lista");
+        assertTrue(Sistema.pessoas.contains(p), "Pessoa adicionada a lista, OK");
     }
 
-    public void testarListagemdePessoas(){
+    @Test
+    void testarListagemdePessoas() {
+        Sistema.criarLista();
+        Sistema.listar(pessoas);
+
+        assertTrue(pessoas.contains(p), "Pessoa dentro da lista, OK");
+
 
     }
+
+    @Test
+    void testaRemoverContato() {
+        Sistema.adicionarContato(p);
+
+
+        Sistema.listar(pessoas);
+
+        assertTrue(!pessoas.contains(p), "Contato removido, OK");
+
+
+    }
+
+
 }
+
