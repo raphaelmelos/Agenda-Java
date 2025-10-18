@@ -3,6 +3,7 @@ package org.example.view;
 import org.example.controller.PessoaController;
 import org.example.exception.ParametroInvalidoException;
 import org.example.model.Pessoa;
+import org.example.model.service.PessoaService;
 import org.example.util.TecladoUtil;
 import org.example.exception.AplicationException;
 
@@ -20,17 +21,18 @@ public class Sistema {
     private static boolean sair = false;
     private static List<Pessoa> pessoas = new ArrayList<>();
     PessoaController pessoaController = new PessoaController();
+    PessoaService pessoaService = new PessoaService();
 
-    public static void criarLista() {
+   /* public static void criarLista() {
         pessoas.add(new Pessoa("Mikael", "54545546", "mikael@dauhau.com", LocalDate.of(1999, 2, 13)));
         pessoas.add(new Pessoa("Raphael", "54545546", "raphaemelosas41@gmail.com", LocalDate.of(1997, 3, 24)));
         pessoas.add(new Pessoa("Abner", "54sasas6", "abner@gmail.com", LocalDate.of(1989, 7, 2)));
     }
-
+    */
 
     public static void main(String[] args) throws AplicationException, InputMismatchException {
 
-        Sistema.criarLista();
+       // Sistema.criarLista();
 
         while (!sair) {
             menu();
@@ -59,7 +61,7 @@ public class Sistema {
                     PessoaController.alterarContato();
                     break;
                 case 5:
-                    PessoaController.listarContatosPorLetra();
+                    PessoaService.buscarPorLetra();
                     System.out.println("Listar contatos por letra...");
                     break;
                 case 6:
@@ -85,8 +87,8 @@ public class Sistema {
         System.out.println("2---Listar contatos--------");
         System.out.println("3---Remover contato--------");
         System.out.println("4---Alterar contato--------");
-        System.out.println("5---Listar contato por Letra-");
-        System.out.println("6---Listar contato por Letra-");
+        System.out.println("5---Buscar contato por Letra-");
+        System.out.println("6---Aniversarios do dia-");
         System.out.println("7---Sair-------------------");
     }
 
