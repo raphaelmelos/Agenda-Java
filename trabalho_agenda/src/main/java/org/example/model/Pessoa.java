@@ -51,8 +51,8 @@ public class Pessoa {
     public void setDataNascimento(int dia, int mes, int ano) {
         try {
             this.dataNascimento = LocalDate.of(dia, mes, ano);
-        } catch (Exception e) {
-            System.out.println("Data de nascimento inválida");
+        } catch (Exception e){
+
         }
     }
 
@@ -71,12 +71,13 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" +
-                "nome='" + nome + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", email='" + email + '\'' +
-                ", dataNascimento=" + dataNascimento +
-                '}';
+        return
+                " \n " +
+                        " \n Nome = " + nome +
+                        " \n Telefone = " + telefone +
+                        " \n Email = " + email +
+                        " \n DataNascimento = " + dataNascimento +
+                        " \n ";
     }
 
     public void setDataNascimento(LocalDate of) {

@@ -2,6 +2,7 @@ import org.example.controller.PessoaController;
 import org.example.model.Pessoa;
 import org.example.view.Sistema;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestTemplate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,15 +21,18 @@ public class ClasseTest {
         p.setTelefone("312121212");
         p.setDataNascimento(LocalDate.of(1999, 3, 2));
 
-        PessoaController.adicionarContato(p);
+        PessoaController.adicionarNaLista(p);
 
-        assertTrue(PessoaController.pessoas.contains(p), "Pessoa adicionada a lista, OK");
+        assertTrue(PessoaController.pessoas.contains(p), "Pessoa adicionada, OK");
     }
 
     @Test
     void testarListagemdePessoas() {
-        Sistema.criarLista();
+
+        PessoaController.criarLista();
+        PessoaController.adicionarNaLista(p);
         PessoaController.listar(pessoas);
+
 
         assertTrue(PessoaController.pessoas.contains(p), "Pessoa dentro da lista, OK");
 
@@ -37,12 +41,22 @@ public class ClasseTest {
 
     @Test
     void testaRemoverContato() {
-        PessoaController.adicionarContato(p);
+        PessoaController.adicionarNaLista(p);
 
         PessoaController.listar(pessoas);
 
         assertTrue(!pessoas.contains(p), "Contato removido, OK");
 
+
+    }
+
+    @Test
+    void testaListarPorLetra() {
+
+    }
+
+    @Test
+    void testaAlterarContato() {
 
     }
 

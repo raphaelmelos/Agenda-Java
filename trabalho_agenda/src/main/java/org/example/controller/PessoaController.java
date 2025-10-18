@@ -7,6 +7,8 @@ import org.example.util.TecladoUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.List;
 
 
@@ -21,7 +23,6 @@ public class PessoaController {
 
     public static void alterarContato() {
         listar(pessoas);
-
         String nome = TecladoUtil.lerString("Digite o nome da pessoa que quer editar:");
 
         Pessoa pessoaEditada = pessoas.stream().filter(p -> p.getNome().equalsIgnoreCase(nome)).findFirst().orElse(null);
@@ -42,9 +43,11 @@ public class PessoaController {
 
         String emailEditado = TecladoUtil.lerString("Digite seu e-mail: ");
         pessoaEditada.setEmail(emailEditado);
+
     }
 
     public static void removerContato() throws AplicationException {
+
         String nome = TecladoUtil.lerString("Digite o nome da pessoa que quer remover: ");
         boolean removido = false;
 
@@ -58,16 +61,22 @@ public class PessoaController {
             }
         }
         if (!removido) {
-            System.out.println("Pessoa não encontrada..");
+            System.out.println("Pessoa nao encontrada..");
         }
     }
+
     public static void listar(List<Pessoa> pessoas) {
         System.out.println("Listando Pessoas da agenda...");
-        pessoas.forEach(System.out::println);
+        pessoas.stream().sorted(Comparator.comparing(Pessoa::getNome)).forEach(System.out::println);
+        //pessoas.forEach(System.out::println);
         //queria tratar para caso não tenha ninguém na lista ele indicar
+        if(pessoas.isEmpty()){
+            System.out.println("Lista vazia");
+        }
 
     }
-    public static void adicionarContato(Pessoa p) {
+
+    public static void adicionarNaLista(Pessoa p) {
         pessoas.add(p);
     }
 
@@ -79,7 +88,7 @@ public class PessoaController {
             p.setTelefone(TecladoUtil.lerString("Digite o telefone: "));
 
             int dia = TecladoUtil.lerInt("Dia de nascimento:");
-            int mes = TecladoUtil.lerInt("Mês de nascimento");
+            int mes = TecladoUtil.lerInt("Mes de nascimento");
             int ano = TecladoUtil.lerInt("Ano de nascimento");
             p.setDataNascimento(dia, mes, ano);
 
@@ -89,7 +98,26 @@ public class PessoaController {
         }
         p.setEmail(TecladoUtil.lerString("Digite o email: "));
 
-        pessoas.add(p);
+        adicionarNaLista(p);
+        System.out.println("\n Contato salvo com sucesso!");
 
     }
+
+    public static void listarContatosPorLetra() throws AplicationException, InputMismatchException {
+        try {
+            String letra = TecladoUtil.lerString("Digite a letra inicial do nome do contato: ");
+
+
+            pessoas.stream().filter(p -> p.getNome().toLowerCase().startsWith(letra.toLowerCase())).forEach(p -> System.out.println(
+                    "nome" + p.getNome() + "telefone" + p.getTelefone() + "e-mail " + p.getEmail()));
+
+            //estou filtrando, pegando minha Pessoa p, definindo lower case, iniciando quando, letra for chamada, e tranformando
+            //em lower case. Fazendo um forEach para imprimir a pessoa e mostrando os dados pelo get
+
+        } catch (NullPointerException e) {
+            System.out.println("Digite um nome");
+            listarContatosPorLetra();
+        }
+    }
+
 }
